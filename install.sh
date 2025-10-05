@@ -1,11 +1,11 @@
 #!/bin/bash
-# install.sh: Pažangus ir patikimas BadVPN-Force diegimo įrankis 
+# install.sh: Pažangus ir patikimas BadVPN-Force diegimo įrankis
 
 # --- Konfigūracijos kintamieji ---
-readonly SCRIPT_NAME="badvpn-Force"          
+readonly SCRIPT_NAME="badvpn-pro"          
 readonly GITHUB_USER="ForceGROUP"                   
-readonly GITHUB_REPO="BadVPN"                  
-readonly SCRIPT_URL="https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/Main_BadVPN.sh"  
+readonly GITHUB_REPO="BadVPN-PRO"                  
+readonly SCRIPT_URL="https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/BadVPN.sh"  
 readonly INSTALL_DIR="$HOME/.local/bin"        
 
 # --- Spalvos ir stiliai ---
@@ -81,22 +81,33 @@ atsisiųsti_skriptą() {
     local target_path="$INSTALL_DIR/$SCRIPT_NAME"
     veiksmas "Atsisiunčiamas pagrindinis skriptas..."
 
+    # Patikriname, ar failas jau egzistuoja
+    if [[ -f "$target_path" ]]; then
+        įspėjimas "Skriptas jau egzistuoja. Bus perrašytas."
+    fi
+
     if komanda_egzistuoja curl; then
         if curl -sSL "$SCRIPT_URL" -o "$target_path"; then
             pavyko "Skriptas atsisiųstas į '$target_path'."
         else
-            klaida "Atsisiuntimas su curl nepavyko."
+            klaida "Atsisiuntimas su curl nepavyko. Patikrinkite interneto ryšį ir URL."
         fi
     elif komanda_egzistuoja wget; then
         if wget -q -O "$target_path" "$SCRIPT_URL"; then
             pavyko "Skriptas atsisiųstas į '$target_path'."
         else
-            klaida "Atsisiuntimas su wget nepavyko."
+            klaida "Atsisiuntimas su wget nepavyko. Patikrinkite interneto ryšį ir URL."
         fi
+    else
+        klaida "Nerasta nei curl, nei wget komandos."
     fi
     
-    chmod +x "$target_path"
-    pavyko "Vykdymo teisės priskirtos."
+    if [[ -f "$target_path" ]]; then
+        chmod +x "$target_path"
+        pavyko "Vykdymo teisės priskirtos."
+    else
+        klaida "Nepavyko sukurti failo '$target_path'."
+    fi
 }
 
 # --- Pagrindinis srautas ---
@@ -107,11 +118,13 @@ pagrindinis() {
     nustatyti_aplinką
     atsisiųsti_skriptą
     
-    echo -e "\n\n${PARYŠKINTAS}🎉 Diegimas baigtas! 🎉${ATSTATYTI}"
+    echo -e "\n\n${PARYŠKINTAS}🎉 Diegimas baigtas sėkmingai! 🎉${ATSTATYTI}"
     informacija "Kad pradėtumėte, iš naujo paleiskite terminalą arba vykdykite:"
     echo -e "  ${GELTONA}source ~/.bashrc  # (arba jūsų apvalkalo failą, pvz.: ~/.zshrc)${ATSTATYTI}"
     informacija "Tada paprasčiausiai vykdykite komandą:"
     echo -e "  ${ŽALIA}${SCRIPT_NAME}${ATSTATYTI}"
+    informacija "Arba galite iš karto paleisti:"
+    echo -e "  ${ŽALIA}$INSTALL_DIR/$SCRIPT_NAME${ATSTATYTI}"
 }
 
 pagrindinis
