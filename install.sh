@@ -1,5 +1,10 @@
 #!/bin/bash
+# -*- coding: utf-8 -*-
 # install.sh: Pažangus ir patikimas BadVPN-Force diegimo įrankis
+
+# Nustatome UTF-8 kodavimą
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
 # --- Konfigūracijos kintamieji ---
 readonly SCRIPT_NAME="badvpn-pro"          
@@ -76,30 +81,28 @@ nustatyti_aplinką() {
     fi
 }
 
-# Atsisiunčia pagrindinį skriptą iš GitHub
+# Kopijuoja pagrindinį skriptą į sistemą
 atsisiųsti_skriptą() {
     local target_path="$INSTALL_DIR/$SCRIPT_NAME"
-    veiksmas "Atsisiunčiamas pagrindinis skriptas..."
+    local source_script="./BadVPN.sh"
+    
+    veiksmas "Diegiamas pagrindinis skriptas..."
 
-    # Patikriname, ar failas jau egzistuoja
+    # Patikriname, ar šaltinio failas egzistuoja
+    if [[ ! -f "$source_script" ]]; then
+        klaida "Nerasta '$source_script' failo šiame kataloge. Įsitikinkite, kad abu failai yra tame pačiame kataloge."
+    fi
+
+    # Patikriname, ar tikslo failas jau egzistuoja
     if [[ -f "$target_path" ]]; then
         įspėjimas "Skriptas jau egzistuoja. Bus perrašytas."
     fi
 
-    if komanda_egzistuoja curl; then
-        if curl -sSL "$SCRIPT_URL" -o "$target_path"; then
-            pavyko "Skriptas atsisiųstas į '$target_path'."
-        else
-            klaida "Atsisiuntimas su curl nepavyko. Patikrinkite interneto ryšį ir URL."
-        fi
-    elif komanda_egzistuoja wget; then
-        if wget -q -O "$target_path" "$SCRIPT_URL"; then
-            pavyko "Skriptas atsisiųstas į '$target_path'."
-        else
-            klaida "Atsisiuntimas su wget nepavyko. Patikrinkite interneto ryšį ir URL."
-        fi
+    # Kopijuojame failą
+    if cp "$source_script" "$target_path"; then
+        pavyko "Skriptas nukopijuotas į '$target_path'."
     else
-        klaida "Nerasta nei curl, nei wget komandos."
+        klaida "Nepavyko nukopijuoti failo."
     fi
     
     if [[ -f "$target_path" ]]; then
