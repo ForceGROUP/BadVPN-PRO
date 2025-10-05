@@ -301,10 +301,10 @@ perkrauti_badvpn() {
 # Rodo pagrindinį meniu
 rodyti_meniu() {
     clear
-    echo -e "${PARYŠKINTAS}${ŽYDRA}╔══════════════════════════════════════╗${ATSTATYTI}"
-    echo -e "${PARYŠKINTAS}${ŽYDRA}║           BadVPN PRO ${SKRIPTO_VERS}            ║${ATSTATYTI}"
-    echo -e "${PARYŠKINTAS}${ŽYDRA}║         Force BadVPN valdymas        ║${ATSTATYTI}" 
-    echo -e "${PARYŠKINTAS}${ŽYDRA}╚══════════════════════════════════════╝${ATSTATYTI}"
+    echo -e "${PARYŠKINTAS}${ŽYDRA}"'╔══════════════════════════════════════╗'"${ATSTATYTI}"
+    echo -e "${PARYŠKINTAS}${ŽYDRA}"'║           BadVPN PRO '"${SKRIPTO_VERS}"'            ║'"${ATSTATYTI}"
+    echo -e "${PARYŠKINTAS}${ŽYDRA}"'║         Force BadVPN valdymas        ║'"${ATSTATYTI}" 
+    echo -e "${PARYŠKINTAS}${ŽYDRA}"'╚══════════════════════════════════════╝'"${ATSTATYTI}"
     echo -e "────────────────────────────────────────"
     if ar_badvpn_įdiegtas; then
         echo -e " ${ŽALIA}● BadVPN įdiegtas${ATSTATYTI}"
@@ -408,6 +408,6 @@ while true; do
     esac
 done
 
-echo -e "\n${PARYŠKINTAS}${ŽALIA}═══════════════════════════════════════${ATSTATYTI}"
-echo -e "${PARYŠKINTAS}${ŽALIA}  Ačiū, kad naudojate BadVPN PRO! 🚀${ATSTATYTI}"
-echo -e "${PARYŠKINTAS}${ŽALIA}═══════════════════════════════════════${ATSTATYTI}\n"
+echo -e "\n${PARYŠKINTAS}${ŽALIA}"'═══════════════════════════════════════'"${ATSTATYTI}"
+echo -e "${PARYŠKINTAS}${ŽALIA}"'  Ačiū, kad naudojate BadVPN PRO! 🚀'"${ATSTATYTI}"
+echo -e "${PARYŠKINTAS}${ŽALIA}"'═══════════════════════════════════════'"${ATSTATYTI}\n"
