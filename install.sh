@@ -84,14 +84,51 @@ nustatyti_aplinką() {
 # Kopijuoja pagrindinį skriptą į sistemą
 atsisiųsti_skriptą() {
     local target_path="$INSTALL_DIR/$SCRIPT_NAME"
-    local source_script="./BadVPN.sh"
+    local source_script=""
     
     veiksmas "Diegiamas pagrindinis skriptas..."
 
-    # Patikriname, ar šaltinio failas egzistuoja
-    if [[ ! -f "$source_script" ]]; then
-        klaida "Nerasta '$source_script' failo šiame kataloge. Įsitikinkite, kad abu failai yra tame pačiame kataloge."
+    # Ieškome BadVPN skripto su skirtingais pavadinimais
+    if [[ -f "./BadVPN.sh" ]]; then
+        source_script="./BadVPN.sh"
+    elif [[ -f "./badvpn.sh" ]]; then
+        source_script="./badvpn.sh" 
+    elif [[ -f "./BadVPN-PRO.sh" ]]; then
+        source_script="./BadVPN-PRO.sh"
+    elif [[ -f "./Main_BadVPN.sh" ]]; then
+        source_script="./Main_BadVPN.sh"
+    else
+        # Ieškome bet kokio *.sh failo, kuris nėra install.sh
+        informacija "Ieškoma BadVPN skripto failų..."
+        for file in *.sh; do
+            if [[ "$file" != "install.sh" && -f "$file" ]]; then
+                # Papildomas tikrinimas - ar failas atrodo kaip BadVPN skriptas
+                if grep -q "BadVPN\|badvpn" "$file" 2>/dev/null; then
+                    source_script="./$file"
+                    informacija "Rastas BadVPN skriptas: $file"
+                    break
+                fi
+            fi
+        done
+        
+        # Jei vis dar neradome, imame bet kokį .sh failą
+        if [[ -z "$source_script" ]]; then
+            for file in *.sh; do
+                if [[ "$file" != "install.sh" && -f "$file" ]]; then
+                    source_script="./$file"
+                    ispejimas "Naudojamas skriptas: $file (nepatikrinta ar tai BadVPN skriptas)"
+                    break
+                fi
+            done
+        fi
     fi
+
+    # Patikriname, ar radome failą
+    if [[ -z "$source_script" || ! -f "$source_script" ]]; then
+        klaida "Nerasta BadVPN skripto failo šiame kataloge. Esami failai: $(ls -1 *.sh 2>/dev/null || echo 'nėra .sh failų')"
+    fi
+
+    informacija "Rastas skriptas: $source_script"
 
     # Patikriname, ar tikslo failas jau egzistuoja
     if [[ -f "$target_path" ]]; then
