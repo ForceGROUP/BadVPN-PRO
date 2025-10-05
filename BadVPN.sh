@@ -1,5 +1,5 @@
 #!/bin/bash
-# BadVPN PRO: Force BadVPN valdymo sprendimas su išplėstomis funkcijomis
+# BadVPN PRO: Force BadVPN 
 
 # --- Globalūs kintamieji ---
 readonly SKRIPTO_VERS="PRO v1.0"
