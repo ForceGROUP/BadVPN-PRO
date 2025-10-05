@@ -125,6 +125,12 @@ pridėti_portą() {
         return 1
     fi
     
+    # Patikriname, ar portas jau neegzistuoja
+    if [[ "$esami_portai" =~ $naujas_portas ]]; then
+        klaida "Portas $naujas_portas jau egzistuoja."
+        return 1
+    fi
+    
     local visi_portai="$esami_portai $naujas_portas"
     
     local listen_addr="127.0.0.1"
@@ -163,6 +169,14 @@ sukurti_tarnybą() {
         klaida "Nenurodyti portai. Operacija atšaukta."
         return 1
     fi
+
+    # Validuojame portus
+    for port in $ports; do
+        if [[ ! "$port" =~ ^[0-9]+$ ]] || [[ "$port" -lt 1 ]] || [[ "$port" -gt 65535 ]]; then
+            klaida "Neteisingas portas: $port. Portas turi būti skaičius tarp 1-65535."
+            return 1
+        fi
+    done
 
     local listen_addr="127.0.0.1"
     local exec_start_cmd="$BADVPN_BIN_PATH"
@@ -271,7 +285,7 @@ analizuoti_svetainę() {
 # Perkrauna BadVPN tarnybą
 perkrauti_badvpn() {
     if ! systemctl list-units --full -all | grep -q "$SERVICE_NAME"; then
-        klaida "BadVPN neegzistuoja. Sukonfigūruokite jį 2 pasirinkimu."
+        klaida "BadVPN neegzistuoja. Sukonfigūruokite jį 3 pasirinkimu."
         return 1
     fi
     
