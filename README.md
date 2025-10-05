@@ -187,8 +187,8 @@ chmod +x BadVPN.sh
 
 #### 💀 "Permission denied"
 ```bash
-chmod +x Main_BadVPN.sh
-sudo ./Main_BadVPN.sh  # Force it!
+chmod +x BadVPN.sh
+sudo ./BadVPN.sh  # Force it!
 ```
 
 #### 🔥 "systemctl not found"  
@@ -205,7 +205,7 @@ sudo ./Main_BadVPN.sh  # Force it!
 
 ```
 BadVPN-PRO/
-├── 🚀 Main_BadVPN.sh          # Main beast (409 lines of power)
+├── 🚀 BadVPN.sh               # Main beast (409 lines of power)
 ├── 📖 README.md               # This epic guide  
 ├── ⚖️ LICENSE                 # Legal stuff
 └── 📸 screenshots/            # Visual proof
