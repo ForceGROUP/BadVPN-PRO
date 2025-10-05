@@ -25,18 +25,18 @@ readonly SERVICE_NAME="badvpn-udpgw.service"
 readonly SERVICE_FILE="/etc/systemd/system/$SERVICE_NAME"
 
 # --- Spalvos ir stiliai ---
-readonly ŽALIA='\033[0;32m'       # Žalia spalva
-readonly MĖLYNA='\033[0;34m'      # Mėlyna spalva
+readonly ZALIA='\033[0;32m'       # Žalia spalva
+readonly MELYNA='\033[0;34m'      # Mėlyna spalva
 readonly GELTONA='\033[0;33m'     # Geltona spalva
 readonly RAUDONA='\033[0;31m'     # Raudona spalva
-readonly ŽYDRA='\033[0;36m'       # Žydra spalva
-readonly PARYŠKINTAS='\033[1m'    # Paryškintas tekstas
+readonly ZYDRA='\033[0;36m'       # Žydra spalva
+readonly PARYSKINTAS='\033[1m'    # Paryškintas tekstas
 readonly ATSTATYTI='\033[0m'      # Spalvos atstatymas
 
 # --- Pagalbinės funkcijos ---
-informacija() { echo -e "${MĖLYNA}ℹ ${*}${ATSTATYTI}"; }
-pavyko() { echo -e "${ŽALIA}✔ ${*}${ATSTATYTI}"; }
-įspėjimas() { echo -e "${GELTONA}⚠ ${*}${ATSTATYTI}"; }
+informacija() { echo -e "${MELYNA}ℹ ${*}${ATSTATYTI}"; }
+pavyko() { echo -e "${ZALIA}✔ ${*}${ATSTATYTI}"; }
+ispejimas() { echo -e "${GELTONA}⚠ ${*}${ATSTATYTI}"; }
 klaida() { echo -e "${RAUDONA}✖ ${*}${ATSTATYTI}"; }
 
 run_as_root() {
@@ -48,7 +48,7 @@ run_as_root() {
 }
 
 spausti_enter_tęsti() {
-    echo -e "\n${ŽYDRA}Paspauskite [Enter] tęsimui...${ATSTATYTI}"
+    echo -e "\n${ZYDRA}Paspauskite [Enter] tęsimui...${ATSTATYTI}"
     read -r
 }
 
@@ -278,7 +278,7 @@ analizuoti_svetainę() {
     informacija "Analizuojama svetainė: $domain"
     informacija "Ieškoma visų nuorodų..."
     
-    echo -e "\n${PARYŠKINTAS}${ŽYDRA}=== RASTOS NUORODOS ===${ATSTATYTI}"
+    echo -e "\n${PARYSKINTAS}${ZYDRA}=== RASTOS NUORODOS ===${ATSTATYTI}"
     
     if curl -sL "$domain" | grep -Eo 'https?://[^"'"'"'<> ]+' | sed 's/[[:punct:]]*$//' | sort -u; then
         pavyko "Analizė baigta sėkmingai!"
@@ -320,19 +320,19 @@ perkrauti_badvpn() {
 # Rodo pagrindinį meniu
 rodyti_meniu() {
     clear
-    echo -e "${PARYŠKINTAS}${ŽYDRA}"'╔══════════════════════════════════════╗'"${ATSTATYTI}"
-    echo -e "${PARYŠKINTAS}${ŽYDRA}"'║           BadVPN PRO '"${SKRIPTO_VERS}"'            ║'"${ATSTATYTI}"
-    echo -e "${PARYŠKINTAS}${ŽYDRA}"'║         Force BadVPN valdymas        ║'"${ATSTATYTI}" 
-    echo -e "${PARYŠKINTAS}${ŽYDRA}"'╚══════════════════════════════════════╝'"${ATSTATYTI}"
+    echo -e "${PARYSKINTAS}${ZYDRA}"'╔══════════════════════════════════════╗'"${ATSTATYTI}"
+    echo -e "${PARYSKINTAS}${ZYDRA}"'║           BadVPN PRO '"${SKRIPTO_VERS}"'            ║'"${ATSTATYTI}"
+    echo -e "${PARYSKINTAS}${ZYDRA}"'║         Force BadVPN valdymas        ║'"${ATSTATYTI}" 
+    echo -e "${PARYSKINTAS}${ZYDRA}"'╚══════════════════════════════════════╝'"${ATSTATYTI}"
     echo -e "────────────────────────────────────────"
     if ar_badvpn_įdiegtas; then
-        echo -e " ${ŽALIA}● BadVPN įdiegtas${ATSTATYTI}"
+        echo -e " ${ZALIA}● BadVPN įdiegtas${ATSTATYTI}"
         if systemctl is-active --quiet "$SERVICE_NAME"; then
             local aktyvūs_portai=$(gauti_aktyvius_portus)
             if [[ -n "$aktyvūs_portai" ]]; then
-                echo -e " ${ŽALIA}● BadVPN AKTYVUS - Portai: $aktyvūs_portai${ATSTATYTI}"
+                echo -e " ${ZALIA}● BadVPN AKTYVUS - Portai: $aktyvūs_portai${ATSTATYTI}"
             else
-                echo -e " ${ŽALIA}● BadVPN AKTYVUS${ATSTATYTI}"
+                echo -e " ${ZALIA}● BadVPN AKTYVUS${ATSTATYTI}"
             fi
         else
             echo -e " ${GELTONA}● BadVPN NEAKTYVUS${ATSTATYTI}"
@@ -341,17 +341,17 @@ rodyti_meniu() {
         echo -e " ${RAUDONA}● BadVPN NĖRA įdiegtas${ATSTATYTI}"
     fi
     echo -e "────────────────────────────────────────"
-    echo -e " ${PARYŠKINTAS}1)${ATSTATYTI} Įdiegti/Pereinstaliuoti BadVPN"
-    echo -e " ${PARYŠKINTAS}2)${ATSTATYTI} ${ŽALIA}Pridėti BadVPN portą${ATSTATYTI}"
-    echo -e " ${PARYŠKINTAS}3)${ATSTATYTI} Konfigūruoti/Paleisti BadVPN (Portai)"
-    echo -e " ${PARYŠKINTAS}4)${ATSTATYTI} Žiūrėti BadVPN būseną"
-    echo -e " ${PARYŠKINTAS}5)${ATSTATYTI} Stabdyti/Paleisti BadVPN"
-    echo -e " ${PARYŠKINTAS}6)${ATSTATYTI} ${GELTONA}Pašalinti BadVPN${ATSTATYTI}"
-    echo -e " ${PARYŠKINTAS}7)${ATSTATYTI} ${ŽYDRA}Analizuoti svetainę${ATSTATYTI}"
-    echo -e " ${PARYŠKINTAS}8)${ATSTATYTI} Perkrauti BadVPN"
-    echo -e " ${PARYŠKINTAS}9)${ATSTATYTI} Atnaujinti šį skriptą"
-    echo -e " ${PARYŠKINTAS}10)${ATSTATYTI} ${RAUDONA}Šalinti šį skriptą${ATSTATYTI}"
-    echo -e " ${PARYŠKINTAS}0)${ATSTATYTI} Išeiti"
+    echo -e " ${PARYSKINTAS}1)${ATSTATYTI} Įdiegti/Pereinstaliuoti BadVPN"
+    echo -e " ${PARYSKINTAS}2)${ATSTATYTI} ${ZALIA}Pridėti BadVPN portą${ATSTATYTI}"
+    echo -e " ${PARYSKINTAS}3)${ATSTATYTI} Konfigūruoti/Paleisti BadVPN (Portai)"
+    echo -e " ${PARYSKINTAS}4)${ATSTATYTI} Žiūrėti BadVPN būseną"
+    echo -e " ${PARYSKINTAS}5)${ATSTATYTI} Stabdyti/Paleisti BadVPN"
+    echo -e " ${PARYSKINTAS}6)${ATSTATYTI} ${GELTONA}Pašalinti BadVPN${ATSTATYTI}"
+    echo -e " ${PARYSKINTAS}7)${ATSTATYTI} ${ZYDRA}Analizuoti svetainę${ATSTATYTI}"
+    echo -e " ${PARYSKINTAS}8)${ATSTATYTI} Perkrauti BadVPN"
+    echo -e " ${PARYSKINTAS}9)${ATSTATYTI} Atnaujinti šį skriptą"
+    echo -e " ${PARYSKINTAS}10)${ATSTATYTI} ${RAUDONA}Šalinti šį skriptą${ATSTATYTI}"
+    echo -e " ${PARYSKINTAS}0)${ATSTATYTI} Išeiti"
     echo -e "────────────────────────────────────────"
 }
 
@@ -427,6 +427,6 @@ while true; do
     esac
 done
 
-echo -e "\n${PARYŠKINTAS}${ŽALIA}"'═══════════════════════════════════════'"${ATSTATYTI}"
-echo -e "${PARYŠKINTAS}${ŽALIA}"'  Ačiū, kad naudojate BadVPN PRO! 🚀'"${ATSTATYTI}"
-echo -e "${PARYŠKINTAS}${ŽALIA}"'═══════════════════════════════════════'"${ATSTATYTI}\n"
+echo -e "\n${PARYSKINTAS}${ZALIA}"'═══════════════════════════════════════'"${ATSTATYTI}"
+echo -e "${PARYSKINTAS}${ZALIA}"'  Ačiū, kad naudojate BadVPN PRO! 🚀'"${ATSTATYTI}"
+echo -e "${PARYSKINTAS}${ZALIA}"'═══════════════════════════════════════'"${ATSTATYTI}\n"
