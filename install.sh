@@ -1,9 +1,9 @@
 #!/bin/bash
-# install.sh: Pažangus ir patikimas BadVPN-Force diegimo įrankis
+# install.sh: Pažangus ir patikimas BadVPN-Force diegimo įrankis 
 
 # --- Konfigūracijos kintamieji ---
 readonly SCRIPT_NAME="badvpn-Force"          
-readonly GITHUB_USER="Tuzas"                   
+readonly GITHUB_USER="ForceGROUP"                   
 readonly GITHUB_REPO="BadVPN"                  
 readonly SCRIPT_URL="https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/Main_BadVPN.sh"  
 readonly INSTALL_DIR="$HOME/.local/bin"        
