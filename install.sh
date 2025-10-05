@@ -14,19 +14,19 @@ readonly SCRIPT_URL="https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_R
 readonly INSTALL_DIR="$HOME/.local/bin"        
 
 # --- Spalvos ir stiliai ---
-readonly ŽALIA='\033[0;32m'       # Žalia spalva
-readonly MĖLYNA='\033[0;34m'      # Mėlyna spalva  
+readonly ZALIA='\033[0;32m'       # Žalia spalva
+readonly MELYNA='\033[0;34m'      # Mėlyna spalva  
 readonly GELTONA='\033[0;33m'     # Geltona spalva
 readonly RAUDONA='\033[0;31m'     # Raudona spalva
-readonly PARYŠKINTAS='\033[1m'    # Paryškintas tekstas
+readonly PARYSKINTAS='\033[1m'    # Paryškintas tekstas
 readonly ATSTATYTI='\033[0m'      # Spalvos atstatymas
 
 # --- Pagalbinės funkcijos ---
-informacija() { echo -e "${MĖLYNA}ℹ ${*}${ATSTATYTI}"; }
-pavyko() { echo -e "${ŽALIA}✔ ${*}${ATSTATYTI}"; }
-įspėjimas() { echo -e "${GELTONA}⚠ ${*}${ATSTATYTI}"; }
+informacija() { echo -e "${MELYNA}ℹ ${*}${ATSTATYTI}"; }
+pavyko() { echo -e "${ZALIA}✔ ${*}${ATSTATYTI}"; }
+ispejimas() { echo -e "${GELTONA}⚠ ${*}${ATSTATYTI}"; }
 klaida() { echo -e "${RAUDONA}✖ ${*}${ATSTATYTI}"; exit 1; }
-veiksmas() { echo -e "\n${PARYŠKINTAS}${ŽALIA}› ${*}${ATSTATYTI}"; }
+veiksmas() { echo -e "\n${PARYSKINTAS}${ZALIA}› ${*}${ATSTATYTI}"; }
 
 # --- Skripto logika ---
 
@@ -51,7 +51,7 @@ tikrinti_priklausomybes() {
         klaida "Jums reikia 'curl' arba 'wget' skripto atsisiuntimui. Prašome įdiegti vieną iš jų."
     fi
     if ! komanda_egzistuoja sudo; then
-        įspėjimas "'sudo' nerasta. Jei reikalingos root teisės, skriptas gali neveikti."
+        ispejimas "'sudo' nerasta. Jei reikalingos root teisės, skriptas gali neveikti."
     fi
     pavyko "Priklausomybės rastos."
 }
@@ -95,7 +95,7 @@ atsisiųsti_skriptą() {
 
     # Patikriname, ar tikslo failas jau egzistuoja
     if [[ -f "$target_path" ]]; then
-        įspėjimas "Skriptas jau egzistuoja. Bus perrašytas."
+        ispejimas "Skriptas jau egzistuoja. Bus perrašytas."
     fi
 
     # Kopijuojame failą
@@ -116,18 +116,18 @@ atsisiųsti_skriptą() {
 # --- Pagrindinis srautas ---
 pagrindinis() {
     clear
-    echo -e "${PARYŠKINTAS}${ŽALIA}--- BadVPN Manager diegėjas ---${ATSTATYTI}"
+    echo -e "${PARYSKINTAS}${ZALIA}--- BadVPN Manager diegėjas ---${ATSTATYTI}"
     tikrinti_priklausomybes
     nustatyti_aplinką
     atsisiųsti_skriptą
     
-    echo -e "\n\n${PARYŠKINTAS}🎉 Diegimas baigtas sėkmingai! 🎉${ATSTATYTI}"
+    echo -e "\n\n${PARYSKINTAS}🎉 Diegimas baigtas sėkmingai! 🎉${ATSTATYTI}"
     informacija "Kad pradėtumėte, iš naujo paleiskite terminalą arba vykdykite:"
     echo -e "  ${GELTONA}source ~/.bashrc  # (arba jūsų apvalkalo failą, pvz.: ~/.zshrc)${ATSTATYTI}"
     informacija "Tada paprasčiausiai vykdykite komandą:"
-    echo -e "  ${ŽALIA}${SCRIPT_NAME}${ATSTATYTI}"
+    echo -e "  ${ZALIA}${SCRIPT_NAME}${ATSTATYTI}"
     informacija "Arba galite iš karto paleisti:"
-    echo -e "  ${ŽALIA}$INSTALL_DIR/$SCRIPT_NAME${ATSTATYTI}"
+    echo -e "  ${ZALIA}$INSTALL_DIR/$SCRIPT_NAME${ATSTATYTI}"
 }
 
 pagrindinis
