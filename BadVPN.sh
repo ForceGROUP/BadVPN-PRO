@@ -1,6 +1,6 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
-# BadVPN PRO: Force BadVPN valdymo sprendimas su išplėstomis funkcijomis
+# BadVPN PRO: Force BadVPN valdymo sprendimas su išplėstomis funkcijomis 
 
 # Nustatome UTF-8 kodavimą
 export LC_ALL=C.UTF-8
