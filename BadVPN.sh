@@ -7,7 +7,7 @@ export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
 # --- Globalūs kintamieji ---
-readonly SKRIPTO_VERS="PRO v1.0"
+readonly SKRIPTO_VERS="v1.0"
 readonly GITHUB_URL="https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/BadVPN.sh"
 readonly SCRIPT_PATH="$HOME/.local/bin/badvpn-pro"
 
