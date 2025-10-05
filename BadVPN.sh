@@ -59,8 +59,8 @@ ar_badvpn_įdiegtas() {
     command -v badvpn-udpgw >/dev/null 2>&1
 }
 
-# Gauna aktyvius BadVPN portus
-gauti_aktyvius_portus() {
+# Gauna aktyvus BadVPN portus
+gauti_aktyvus_portus() {
     if systemctl is-active --quiet "$SERVICE_NAME"; then
         systemctl cat "$SERVICE_NAME" 2>/dev/null | grep "ExecStart=" | sed 's/.*ExecStart=//' | grep -oE ':[0-9]+' | sed 's/://' | tr '\n' ' ' | sed 's/ $//'
     fi
@@ -114,7 +114,7 @@ pridėti_portą() {
         return 1
     fi
     
-    local esami_portai=$(gauti_aktyvius_portus)
+    local esami_portai=$(gauti_aktyvus_portus)
     if [[ -n "$esami_portai" ]]; then
         informacija "Esami portai: $esami_portai"
     fi
@@ -211,8 +211,8 @@ EOF
     run_as_root systemctl enable "$SERVICE_NAME"
     run_as_root systemctl start "$SERVICE_NAME"
 
-    local aktyvūs_portai=$(gauti_aktyvius_portus)
-    pavyko "BadVPN sukurtas ir suaktyvinta! Portai: $aktyvūs_portai"
+    local aktyvus_portai=$(gauti_aktyvus_portus)
+    pavyko "BadVPN sukurtas ir suaktyvinta! Portai: $aktyvus_portai"
     run_as_root systemctl status "$SERVICE_NAME" --no-pager
 }
 
@@ -270,6 +270,21 @@ analizuoti_svetainę() {
         return 1
     fi
     
+    # Patikriname ir diegiame curl jei reikia
+    if ! command -v curl >/dev/null 2>&1; then
+        ispejimas "curl nėra įdiegtas. Bandoma įdiegti..."
+        if run_as_root apt-get update && run_as_root apt-get install -y curl; then
+            pavyko "curl sėkmingai įdiegtas!"
+        else
+            # Jei nepavyko įdiegti curl, bandom wget
+            if ! command -v wget >/dev/null 2>&1; then
+                klaida "Nepavyko įdiegti curl ir wget nėra prieinamas. Prašome rankiniu būdu įdiegti: sudo apt install curl"
+                return 1
+            fi
+            ispejimas "Naudojamas wget vietoj curl..."
+        fi
+    fi
+    
     # Pridedame https:// jei nėra protokolo
     if [[ ! "$domain" =~ ^https?:// ]]; then
         domain="https://$domain"
@@ -280,10 +295,21 @@ analizuoti_svetainę() {
     
     echo -e "\n${PARYSKINTAS}${ZYDRA}=== RASTOS NUORODOS ===${ATSTATYTI}"
     
-    if curl -sL "$domain" | grep -Eo 'https?://[^"'"'"'<> ]+' | sed 's/[[:punct:]]*$//' | sort -u; then
-        pavyko "Analizė baigta sėkmingai!"
+    # Bandom curl, jei nepavyksta - wget
+    if command -v curl >/dev/null 2>&1; then
+        if curl -sL "$domain" | grep -Eo 'https?://[^"'"'"'<> ]+' | sed 's/[[:punct:]]*$//' | sort -u; then
+            pavyko "Analizė baigta sėkmingai!"
+        else
+            klaida "Nepavyko prisijungti prie svetainės arba rasti nuorodų."
+        fi
+    elif command -v wget >/dev/null 2>&1; then
+        if wget -qO- "$domain" | grep -Eo 'https?://[^"'"'"'<> ]+' | sed 's/[[:punct:]]*$//' | sort -u; then
+            pavyko "Analizė baigta sėkmingai!"
+        else
+            klaida "Nepavyko prisijungti prie svetainės arba rasti nuorodų."
+        fi
     else
-        klaida "Nepavyko prisijungti prie svetainės arba rasti nuorodų."
+        klaida "Nei curl, nei wget nėra prieinami. Prašome įdiegti vieną iš jų."
     fi
 }
 
@@ -328,9 +354,9 @@ rodyti_meniu() {
     if ar_badvpn_įdiegtas; then
         echo -e " ${ZALIA}● BadVPN įdiegtas${ATSTATYTI}"
         if systemctl is-active --quiet "$SERVICE_NAME"; then
-            local aktyvūs_portai=$(gauti_aktyvius_portus)
-            if [[ -n "$aktyvūs_portai" ]]; then
-                echo -e " ${ZALIA}● BadVPN AKTYVUS - Portai: $aktyvūs_portai${ATSTATYTI}"
+            local aktyvus_portai=$(gauti_aktyvus_portus)
+            if [[ -n "$aktyvus_portai" ]]; then
+                echo -e " ${ZALIA}● BadVPN AKTYVUS - Portai: $aktyvus_portai${ATSTATYTI}"
             else
                 echo -e " ${ZALIA}● BadVPN AKTYVUS${ATSTATYTI}"
             fi
