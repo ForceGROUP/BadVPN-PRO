@@ -46,12 +46,12 @@ BadVPN PRO
 
 ### 🔥 Method 1: Quick & Dirty
 ```bash
-wget -O badVPN-pro.sh https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/BadVPN.sh
-chmod +x badVPN-pro.sh
-./badVPN-pro.sh
+wget -O badVPN.sh https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/BadVPN.sh
+chmod +x badVPN.sh
+./badVPN.sh
 
 ╔══════════════════════════════════════╗
-║           BadVPN PRO PRO v1.0        ║
+║           BadVPN PRO v1.0            ║
 ║         Force BadVPN valdymas        ║
 ╚══════════════════════════════════════╝
 ────────────────────────────────────────
@@ -107,9 +107,9 @@ chmod +x badVPN-pro.sh
 
 ### 🔥 Method 1: Quick & Dirty
 ```bash
-wget -O badVPN-pro.sh https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/BadVPN.sh
-chmod +x badVPN-pro.sh
-./badVPN-pro.sh
+wget -O badVPN.sh https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/BadVPN.sh
+chmod +x badVPN.sh
+./badVPN.sh
 ```
 
 ### 💀 Method 2: Hacker Style  
@@ -126,7 +126,7 @@ chmod +x BadVPN.sh
 
 ```
 ╔══════════════════════════════════════╗
-║           BadVPN PRO PRO v1.0        ║
+║           BadVPN PRO v1.0            ║
 ║         Force BadVPN valdymas        ║
 ╚══════════════════════════════════════╝
 ────────────────────────────────────────
