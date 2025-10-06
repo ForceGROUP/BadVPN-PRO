@@ -116,8 +116,8 @@ chmod +x badVPN.sh
 ```bash
 git clone https://github.com/ForceGROUP/BadVPN-PRO.git
 cd BadVPN-PRO
-chmod +x BadVPN.sh
-./BadVPN.sh
+chmod +x install.sh
+./install.sh
 ```
 
 ---
