@@ -151,7 +151,7 @@ chmod +x BadVPN.sh
 ## 🎯 Usage Guide (Kaip naudoti?)
 
 ### 🔥 Step 1: Deploy the Beast
-1. Paleidi skriptą: Main_BadVPN.sh
+1. Paleidi skriptą: BadVPN.sh
 2. Spaudi **1** - Deploy BadVPN 🚀
 3. Laukti automatic installation magic ✨
 4. Spaudi **3** - Configure ports 🎯
