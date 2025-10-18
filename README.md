@@ -46,9 +46,9 @@ BadVPN PRO
 
 ### 🔥 Method 1: Quick & Dirty
 ```bash
-wget -O badVPN.sh https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/BadVPN.sh
-chmod +x badVPN.sh
-./badVPN.sh
+wget https://raw.githubusercontent.com/ForceGROUP/BadVPN-PRO/main/install.sh
+chmod +x install.sh
+./install.sh
 
 ╔══════════════════════════════════════╗
 ║           BadVPN PRO v1.0            ║
