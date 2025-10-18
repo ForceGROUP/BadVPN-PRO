@@ -68,6 +68,8 @@ chmod +x install.sh
  9) 📡 Auto Update
  10) 🗑️ Self Destruct
  0) 👋 Exit
+
+menu ---badvpn-pro---
 ────────────────────────────────────────
 
 ## 🔥 Kas čia per beast?
@@ -119,7 +121,7 @@ cd BadVPN-PRO
 chmod +x install.sh
 ./install.sh
 ```
-
+menu badvpn-pro
 ---
 
 ## 🎮 Interface Preview
